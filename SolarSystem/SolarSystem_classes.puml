@@ -1,0 +1,134 @@
+@startuml
+skinparam classAttributeIconSize 0
+hide circle
+class AudioManager {
+    - public:     AudioManager()
+    - ~AudioManager()
+    - void init()
+    - void cleanup()
+}
+class GameStateManager {
+    - public:     GameStateManager()
+    - GameState getCurrentState() const
+    - void setCurrentState(GameState state)
+    - int getSelectedButton() const
+    - void setSelectedButton(int button)
+    - void selectPrevious()
+    - void selectNext()
+    - float getMenuAnimTime() const
+    - void updateMenuAnimTime(float delta)
+}
+class WindowManager {
+    - public:     WindowManager()
+    - void toggleFullscreen()
+    - bool getIsFullscreen() const
+}
+class Camera {
+    - public:     Camera()
+    - float getDistance() const
+    - float getAngleX() const
+    - float getAngleY() const
+    - int getFocusedPlanet() const
+    - float getFocusDistance() const
+    - bool getAutoRotate() const
+    - void setDistance(float d)
+    - void setAngleX(float a)
+    - void setAngleY(float a)
+    - void setFocusedPlanet(int p)
+    - void setFocusDistance(float d)
+    - void toggleAutoRotate()
+    - void zoomIn(float amount)
+    - void zoomOut(float amount)
+    - void startDrag(int x, int y)
+    - void stopDrag()
+    - void drag(int x, int y)
+    - bool isMousePressed() const
+}
+class StarField {
+    - public:     StarField()
+    - void init()
+    - void draw(float time)
+}
+class Moon {
+}
+class Planet {
+    - void drawText(double x, double y, double z, const char* text)
+    - void drawMoons(double time)
+    - void drawRings()
+    - public:     Planet(double oRadius, double oSpeed, double sz, double rSpeed,             double r, double g, double b, const char* n,            int moonCount = 0, Moon* moonData = nullptr,            bool rings = false, double rInner = 0, double rOuter = 0,            double rR = 0, double rG = 0, double rB = 0,            double ecc = 0.0, double incl = 0.0, double tilt = 0.0, double lonPeri = 0.0)
+    - ~Planet()
+    - double getOrbitRadius() const
+    - double getOrbitSpeed() const
+    - double getSize() const
+    - const char* getName() const
+    - void drawOrbitPath()
+    - void draw(double time)
+    - void getPosition(double time, double& x, double& y, double& z)
+}
+class SolarSystem {
+    - void drawRealisticSun()
+    - void drawSaturnRings()
+    - public:     SolarSystem()
+    - ~SolarSystem()
+    - void update(double delta)
+    - void draw()
+    - void increaseSpeed()
+    - void decreaseSpeed()
+    - double getTime() const
+    - double getAnimationSpeed() const
+    - Planet* getPlanet(int index)
+    - int getNumPlanets() const
+    - void togglePluto()
+    - bool isPlutoVisible() const
+}
+class MenuRenderer {
+    - public:     static void drawText2D(float x, float y, const char* text, void* font)
+    - static void drawTextCentered(float y, const char* text, void* font)
+    - static void drawGradientRect(float x, float y, float w, float h,                                     float r1, float g1, float b1,                                     float r2, float g2, float b2)
+    - static void drawButton(float x, float y, float w, float h,                              const char* text, bool selected, float animTime)
+    - static void draw(int selectedButton, float menuAnimTime)
+}
+class HowToUseRenderer {
+    - private:     static void drawInstruction(float col, float& y, const char* key, const char* desc, float spacing)
+    - public:     static void draw()
+}
+class AboutRenderer {
+    - public:     static void draw()
+}
+class Renderer {
+    - void getCameraPosition(float& camX, float& camY, float& camZ,                            float& lookX, float& lookY, float& lookZ)
+    - void renderHUD()
+    - public:     Renderer(StarField* sf, SolarSystem* ss, Camera* cam)
+    - void initGL()
+    - void renderSimulation()
+}
+class InputHandler {
+    - void handleMenuKeyboard(unsigned char key)
+    - void handleSimulationKeyboard(unsigned char key)
+    - void handleMenuMouse(int button, int state, int x, int y)
+    - public:     InputHandler(GameStateManager* gs, WindowManager* wm, Camera* cam, SolarSystem* ss)
+    - void handleKeyboard(unsigned char key, int x, int y)
+    - void handleSpecialKeys(int key, int x, int y)
+    - void handleMouse(int button, int state, int x, int y)
+    - void handleMouseMotion(int x, int y)
+    - void handlePassiveMotion(int x, int y)
+}
+class MainApp {
+    - public:     MainApp()
+    - ~MainApp()
+    - void init()
+    - void run()
+    - void display()
+    - void update()
+    - void reshape(int w, int h)
+    - void setupCallbacks()
+    - static void displayCallback()
+    - static void reshapeCallback(int w, int h)
+    - static void updateCallback(int value)
+    - static void keyboardCallback(unsigned char key, int x, int y)
+    - static void specialKeysCallback(int key, int x, int y)
+    - static void mouseCallback(int button, int state, int x, int y)
+    - static void motionCallback(int x, int y)
+    - static void passiveMotionCallback(int x, int y)
+}
+@enduml
